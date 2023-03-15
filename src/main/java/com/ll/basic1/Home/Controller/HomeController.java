@@ -1,5 +1,8 @@
-package com.ll.basic1;
+package com.ll.basic1.Home.Controller;
 
+import jakarta.servlet.http.Cookie;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.*;
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -10,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 @Controller
@@ -33,10 +37,33 @@ public class HomeController {
     }
 
     @GetMapping("/home/increase")
-    public int showIncrese(){
+    public int showIncrease(){
         return count++;
     }
-
+    @GetMapping("/home/cookie/increase")
+    public int showCookieIncrease(HttpServletRequest rq, HttpServletResponse rs) {
+//        int c_count = -1;
+//        if(rq.getCookies()!= null){
+//            c_count = Arrays.stream(rq.getCookies())
+//                    .filter(cookie -> cookie.getName().equals("count"))
+//                    .map(cookie -> cookie.getValue())
+//                    .mapToInt(Integer::parseInt)
+//                    .findFirst()
+//                    .orElse(0);
+//        }
+//        rs.addCookie(new Cookie("count",++c_count + ""));
+        int c_count=0;
+        if(rq.getCookies()!= null){
+            Arrays.stream(rq.getCookies())
+                    .filter(c->c.getName().equals("count"))
+                    .map(c->c.getValue())
+                    .mapToInt(Integer::parseInt)
+                    .findFirst()
+                    .orElse(0);
+        }
+        rs.addCookie(new Cookie("count", ++c_count+""));
+        return c_count;
+    }
     @GetMapping("/home/plus")
     public int showAdd(@RequestParam(defaultValue = "0", required = false) int a, @RequestParam(defaultValue = "0", required = false) int b){
 
@@ -85,6 +112,8 @@ public class HomeController {
 //        }
         return id+"번인 사람은 존재하지 않습니다.";
     }
+
+
 }
 @Builder
 @Getter

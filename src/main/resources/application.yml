@@ -1,0 +1,12 @@
+spring:
+      datasource:
+            url: jdbc:mysql://localhost:3306/basic1__dev?serverTimezone=Asia/Seoul
+            username: lldj
+            password: lldj
+            driver-class-name: com.mysql.cj.jdbc.Driver
+      thymeleaf:
+            cache: false
+            prefix: file:src/main/resources/templates/
+      jpa:
+            hibernate:
+                  ddl-auto: create
